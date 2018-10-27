@@ -66,7 +66,7 @@
 
 (define-public guix-tools
   (let ((commit "253f442b189d79feac3a17cf1b65a44f48a939a7")
-	(revision 1))
+	(revision "1"))
     (package
      (name "guix-tools")
      (version (git-version "0.1.0" revision commit))
@@ -78,15 +78,23 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1rxg752cl59124cfpfwmyjldn6qpq5jginxddpzvgagfadf10i4d"))))
-     (synopsis "Guix build tools")
-     (description "Guix build tools are my tiny, personal scripts
- and helpers to build GNU Guix.")
-     (home-page "https://gitlab.com/hoebjo/guix-tools")
-     (license license:gpl3+)
+                "1j4q43hk7jrys7zsmws37g6w7babzshfdb1s5myl7qwr3mcx6hnf"))))
      (build-system gnu-build-system)
     (arguments
      `(#:tests? #f
 		#:phases
 		(modify-phases %standard-phases
-			       (delete 'configure)))))))
+		  (delete 'configure)
+		  (delete 'build)
+                  (replace 'install
+                    (lambda* (#:key outputs #:allow-other-keys)
+                      (let* ((out (assoc-ref outputs "out"))
+                             (bin (string-append out "/bin")))
+                        (install-file "gbuild" bin)
+                        (install-file "gdev" bin)
+                        #t))))))
+    (synopsis "Guix build tools")
+    (description "Guix build tools are my tiny, personal scripts
+ and helpers to build GNU Guix.")
+    (home-page "https://gitlab.com/hoebjo/guix-tools")
+    (license license:gpl3+))))
