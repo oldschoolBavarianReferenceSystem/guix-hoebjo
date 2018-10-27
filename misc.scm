@@ -82,6 +82,11 @@
      (synopsis "Guix build tools")
      (description "Guix build tools are my tiny, personal scripts
  and helpers to build GNU Guix.")
+     (home-page "https://gitlab.com/hoebjo/guix-tools")
+     (license license:gpl3+)
      (build-system gnu-build-system)
     (arguments
-     `(#:tests? #f)))))
+     `(#:tests? #f
+		#:phases
+		(modify-phases %standard-phases
+			       (delete 'configure)))))))
