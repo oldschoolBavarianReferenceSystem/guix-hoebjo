@@ -80,21 +80,22 @@
                (base32
                 "0v6fp50k79aa4wvv27kfw5ldim2i5jcqz0cfrzpr5aqqjmww71i6"))))
      (build-system gnu-build-system)
-    (arguments
-     `(#:tests? #f
-		#:phases
-		(modify-phases %standard-phases
-		  (delete 'configure)
-		  (delete 'build)
-                  (replace 'install
-                    (lambda* (#:key outputs #:allow-other-keys)
-                      (let* ((out (assoc-ref outputs "out"))
-                             (bin (string-append out "/bin")))
-                        (install-file "gbuild" bin)
-                        (install-file "gdev" bin)
-                        #t))))))
-    (synopsis "Guix build tools")
-    (description "Guix build tools are my tiny, personal scripts
+     (arguments
+      `(#:tests?
+	#f
+	#:phases
+	(modify-phases %standard-phases
+		       (delete 'configure)
+		       (delete 'build)
+		       (replace 'install
+				(lambda* (#:key outputs #:allow-other-keys)
+					 (let* ((out (assoc-ref outputs "out"))
+						(bin (string-append out "/bin")))
+					   (install-file "gbuild" bin)
+					   (install-file "gdev" bin)
+					   #t))))))
+     (synopsis "Guix build tools")
+     (description "Guix build tools are my tiny, personal scripts
  and helpers to build GNU Guix.")
-    (home-page "https://gitlab.com/hoebjo/guix-tools")
-    (license license:gpl3+))))
+     (home-page "https://gitlab.com/hoebjo/guix-tools")
+     (license license:gpl3+))))
