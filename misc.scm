@@ -92,6 +92,7 @@
 					 (let* ((out (assoc-ref outputs "out"))
 						(bin (string-append out "/bin")))
 					   (install-file "gbuild" bin)
+					   (install-file "gbuildn" bin)
 					   (install-file "gdev" bin)
 					   #t))))))
      (synopsis "Guix build tools")
