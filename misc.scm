@@ -65,8 +65,8 @@
   #:use-module (gnu packages xorg))
 
 (define-public guix-tools
-  (let ((commit "bfbce5efba5e5e355b0b600e00e150a55f4d0adc")
-	(revision "5"))
+  (let ((commit "20af1c2999880cdc00acef3b8f81cd27de65d5a5")
+	(revision "6"))
     (package
      (name "guix-tools")
      (version (git-version "0.1.0" revision commit))
