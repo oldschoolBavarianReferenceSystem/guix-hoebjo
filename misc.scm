@@ -65,8 +65,8 @@
   #:use-module (gnu packages xorg))
 
 (define-public guix-tools
-  (let ((commit "20af1c2999880cdc00acef3b8f81cd27de65d5a5")
-	(revision "6"))
+  (let ((commit "ec3794d0b9240f7de0ddea9712fd16bc8ab6b0e3")
+	(revision "7"))
     (package
      (name "guix-tools")
      (version (git-version "0.1.0" revision commit))
@@ -78,7 +78,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "0gm67jnmwdjmbfj3rq0qzccma9sqzilfb632rq899521q4vhq33l"))))
+                "1558w74ikkg6dins1az052lsdnlhbzcgvdw8rh3fc2pq92hr55wj"))))
      (build-system gnu-build-system)
      (arguments
       `(#:tests?
@@ -87,6 +87,14 @@
 	(modify-phases %standard-phases
 		       (delete 'configure)
 		       (delete 'build)
+		       (add-before
+		        'install 'subst
+		        (lambda* (#:key inputs #:allow-other-keys)
+			  (let* ((coreutils (assoc-ref inputs "coreutils"))
+		        	 (tee (string-append coreutils "/bin/tee")))
+		            (substitute* '("gbuild")
+		        		 (("tee")
+		        		  tee)))))
 		       (replace 'install
 				(lambda* (#:key outputs #:allow-other-keys)
 					 (let* ((out (assoc-ref outputs "out"))
@@ -95,6 +103,9 @@
 					   (install-file "gbuildn" bin)
 					   (install-file "gdev" bin)
 					   #t))))))
+
+     (inputs
+      `(("coreutils" ,coreutils)))
      (synopsis "Guix build tools")
      (description "Guix build tools are my tiny, personal scripts
  and helpers to build GNU Guix.")
