@@ -91,10 +91,15 @@
 		        'install 'subst
 		        (lambda* (#:key inputs #:allow-other-keys)
 			  (let* ((coreutils (assoc-ref inputs "coreutils"))
-		        	 (tee (string-append coreutils "/bin/tee")))
+		        	 (tee (string-append coreutils "/bin/tee"))
+				 (espeak-ng (assoc-ref inputs "espeak-ng"))
+				 (espeak (string-append espeak-ng "/bin/espeak")))
 		            (substitute* '("gbuild")
 		        		 (("tee")
-		        		  tee)))))
+		        		  tee))
+			    (substitute* '("gbuildn")
+		        		 (("espeak")
+		        		  espeak)))))
 		       (replace 'install
 				(lambda* (#:key outputs #:allow-other-keys)
 					 (let* ((out (assoc-ref outputs "out"))
@@ -105,7 +110,8 @@
 					   #t))))))
 
      (inputs
-      `(("coreutils" ,coreutils)))
+      `(("coreutils" ,coreutils)
+	("espeak" ,espeak)))
      (synopsis "Guix build tools")
      (description "Guix build tools are my tiny, personal scripts
  and helpers to build GNU Guix.")
