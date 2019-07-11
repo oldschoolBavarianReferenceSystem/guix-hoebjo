@@ -111,7 +111,7 @@
 
      (inputs
       `(("coreutils" ,coreutils)
-	("espeak" ,espeak)))
+	("espeak-ng" ,espeak-ng)))
      (synopsis "Guix build tools")
      (description "Guix build tools are my tiny, personal scripts
  and helpers to build GNU Guix.")
