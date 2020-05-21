@@ -65,8 +65,8 @@
   #:use-module (gnu packages xorg))
 
 (define-public guix-tools
-  (let ((commit "ec3794d0b9240f7de0ddea9712fd16bc8ab6b0e3")
-	(revision "7"))
+  (let ((commit "41050c8f2c23016666fe889ca836fb0ce0051b37")
+	(revision "8"))
     (package
      (name "guix-tools")
      (version (git-version "0.1.0" revision commit))
@@ -78,7 +78,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "1558w74ikkg6dins1az052lsdnlhbzcgvdw8rh3fc2pq92hr55wj"))))
+                "07wgpryxrg1iddpd9kxasw6n0iqyn0897cvcw3fad5sh81k0q12y"))))
      (build-system gnu-build-system)
      (arguments
       `(#:tests?
