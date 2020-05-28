@@ -73,18 +73,18 @@
   ;; XXX: This package is not built from source.
   (package
     (name "eclipse-ide")
-    (version "2019-06")
+    (version "2020-03")
     ;; TODO: Handle i686 alternate origin and augment 'supported-systems'.
     (source (origin
               (method url-fetch)
               (uri (string-append
                     "https://www.eclipse.org/downloads/download.php?"
                     "r=1&file=/technology/epp/downloads/release/"
-                    version "/R/" name "-"
-                    version "-R-linux-gtk-x86_64.tar.gz"))
+                    version "/R/" "eclipse-jee" "-"
+                    version "-R-incubation-linux-gtk-x86_64.tar.gz"))
               (sha256
                (base32
-                "17rzcimwyxlkldyilmx3x4265zdl5a6hk2b2zgs8qv6f3qbsdhkj"))))
+                "07gkqfn2nznav2b8sxkl05bmadbf90imaf8g2x9g8rc6ib648sqz"))))
     (build-system trivial-build-system)
     (arguments
      `(#:modules ((guix build utils))
