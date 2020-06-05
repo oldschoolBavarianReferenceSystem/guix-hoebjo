@@ -65,7 +65,9 @@
   #:use-module (gnu packages xiph)
   #:use-module (gnu packages xml)
   #:use-module (gnu packages xdisorg)
-  #:use-module (gnu packages xorg))
+  #:use-module (gnu packages xorg)
+  #:use-module ((srfi srfi-1) #:hide (zip)))
+
 
 (define-public guix-tools
   (let ((commit "41050c8f2c23016666fe889ca836fb0ce0051b37")
