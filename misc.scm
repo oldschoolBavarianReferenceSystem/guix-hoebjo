@@ -22,6 +22,8 @@
   #:use-module (guix git-download)
   #:use-module (guix utils)
   #:use-module (guix build-system gnu)
+  #:use-module (guix build-system trivial)
+  #:use-module (guix build-system texlive)
   #:use-module (gnu packages)
   #:use-module (gnu packages assembly)
   #:use-module (gnu packages base)
@@ -118,6 +120,65 @@
  and helpers to build GNU Guix.")
      (home-page "https://gitlab.com/hoebjo/guix-tools")
      (license license:gpl3+))))
+
+
+(define* (simple-texlive-package name locations hash
+                                 #:key trivial?)
+  "Return a template for a simple TeX Live package with the given NAME,
+downloading from a list of LOCATIONS in the TeX Live repository, and expecting
+the provided output HASH.  If TRIVIAL? is provided, all files will simply be
+copied to their outputs; otherwise the TEXLIVE-BUILD-SYSTEM is used."
+  (define with-documentation?
+    (and trivial?
+         (any (lambda (location)
+                (string-prefix? "/doc" location))
+              locations)))
+  (package
+    (name name)
+    (version (number->string %texlive-revision))
+    (source (texlive-origin name version
+                            locations hash))
+    (outputs (if with-documentation?
+                 '("out" "doc")
+                 '("out")))
+    (build-system (if trivial?
+                      gnu-build-system
+                      texlive-build-system))
+    (arguments
+     (let ((copy-files
+            `(lambda* (#:key outputs inputs #:allow-other-keys)
+               (let (,@(if with-documentation?
+                           `((doc (string-append (assoc-ref outputs "doc")
+                                                 "/share/texmf-dist/")))
+                           '())
+                     (out (string-append (assoc-ref outputs "out")
+                                         "/share/texmf-dist/")))
+                 ,@(if with-documentation?
+                       '((mkdir-p doc)
+                         (copy-recursively
+                          (string-append (assoc-ref inputs "source") "/doc")
+                          (string-append doc "/doc")))
+                       '())
+                 (mkdir-p out)
+                 (copy-recursively (assoc-ref inputs "source") out)
+                 ,@(if with-documentation?
+                       '((delete-file-recursively (string-append out "/doc")))
+                       '())
+                 #t))))
+       (if trivial?
+           `(#:tests? #f
+             #:phases
+             (modify-phases %standard-phases
+               (delete 'configure)
+               (replace 'build (const #t))
+               (replace 'install ,copy-files)))
+           `(#:phases
+             (modify-phases %standard-phases
+               (add-after 'install 'copy-files ,copy-files))))))
+    (home-page #f)
+    (synopsis #f)
+    (description #f)
+    (license #f)))
 
 (define-public texlive-moderncv
   (package
