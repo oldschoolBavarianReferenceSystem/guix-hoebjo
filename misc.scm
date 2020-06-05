@@ -55,6 +55,7 @@
   #:use-module (gnu packages regex)
   #:use-module (gnu packages serialization)
   #:use-module (gnu packages speech)
+  #:use-module (gnu packages tex)
   #:use-module (gnu packages tls)
   #:use-module (gnu packages valgrind)
   #:use-module (gnu packages vulkan)
@@ -117,3 +118,32 @@
  and helpers to build GNU Guix.")
      (home-page "https://gitlab.com/hoebjo/guix-tools")
      (license license:gpl3+))))
+
+(define-public texlive-moderncv
+  (package
+    (inherit (simple-texlive-package
+              "texlive-moderncv"
+              (list "/tex/latex/base/docstrip.tex")
+              (base32
+               "1f9sx1lp7v34zwm186msf03q2h28rrg0lh65z59zc0cvqffs6dvb")
+              #:trivial? #t))
+    (version "2.0.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/xdanaux/moderncv.git")
+                    (commit (string-append "v" version))))
+              (file-name (git-file-name "texlive-moderncv" version))
+              (sha256
+               (base32
+                "1slgjsyiagglpzx4fqwmhbq6bnz40ii5kl8g2vbh144nnlql0smj"))))
+
+    (home-page "https://github.com/xdanaux/moderncv/")
+    (synopsis "Moderncv is a modern curriculum vitae class")
+    (description
+     "Moderncv provides a documentclass for typesetting curricula vitae in
+various styles.  Moderncv aims to be both straightforward to use and
+customizable, providing four ready-made styles (classic, casual, banking and
+oldstyle) and allowing one to define his own by modifying colors, fonts,
+icons, etc.")
+    (license license:lppl1.3c)))
