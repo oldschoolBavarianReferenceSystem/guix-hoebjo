@@ -119,7 +119,7 @@
      `(("bash" ,bash)
        ("glib" ,glib)
        ("gtk+" ,gtk+)
-       ("jdk" ,icedtea-8)
+       ("jdk" ,openjdk11)
        ("webkitgtk" ,webkitgtk)
        ("libc" ,glibc)
        ("libxtst" ,libxtst)))
