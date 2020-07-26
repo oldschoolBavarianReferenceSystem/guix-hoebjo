@@ -105,6 +105,8 @@
             (let ((jdk (assoc-ref %build-inputs "jdk")))
               (define (libdir input)
                 (string-append (assoc-ref %build-inputs input) "/lib"))
+	      (substitute* (string-append out "eclipse/eclipse.ini")
+			   (("-showsplash") "-nosplash"))
               (wrap-program eclipse
                 `("PATH" prefix (,(string-append jdk "/bin")))
                 `("LD_LIBRARY_PATH" prefix ,(map libdir
