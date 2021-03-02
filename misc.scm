@@ -70,8 +70,8 @@
 
 
 (define-public guix-tools
-  (let ((commit "ea01b1697394549f727198c90d3816e48a908226")
-	(revision "9"))
+  (let ((commit "66d1f229f12bc8713a9d2927c376a9e91eb7a3d1")
+	(revision "10"))
     (package
      (name "guix-tools")
      (version (git-version "0.1.0" revision commit))
@@ -83,7 +83,7 @@
               (file-name (git-file-name name version))
               (sha256
                (base32
-                "183fq816j1j0sg12z35gn786x997lv91sxablil5cmg975bj7x7j"))))
+                "10chig0zjsai7nsii6fz22hll5s0x2yw38iy17bb36y6xpbi5163"))))
      (build-system gnu-build-system)
      (arguments
       `(#:tests?
